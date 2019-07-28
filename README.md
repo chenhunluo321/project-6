@@ -1,6 +1,7 @@
 <p align="center">
-![image](https://user-images.githubusercontent.com/32112516/62011790-8eb01700-b16c-11e9-9533-8ac8461384e8.png)
-</p>
+    <a href="" rel="noopener">
+ <img height= 250 width = 250 src="https://user-images.githubusercontent.com/32112516/62011790-8eb01700-b16c-11e9-9533-8ac8461384e8.png" alt="Project logo"></a>
+
 
 <h3 align="center">Web Scraping Newegg</h3>
 
