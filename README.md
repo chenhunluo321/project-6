@@ -26,48 +26,63 @@
 This is a web scraping program that harvest the website information and organize the prouct information in a sorted way. Everytime you run the program it will out put the updated information from the website
 
 
+## Required Libraries
+bs4
+```
+pip install beautifulsoup4
+```
+
+requests
+```
+python -m pip install requests
+```
+
 ## 🏁 Installing
 
 ```
 python3 web-scrape.py
 ```
 
+## 🎈 Code Walk Through 
+`uClient` is opening up a connection with the `my_url` and grabing the page information and store it in page_html
 
-## 🔧 Running the tests <a name = "tests"></a>
-Explain how to run the automated tests for this system.
-
-### Break down into end to end tests
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-### And coding style tests
-Explain what these tests test and why
-
-```
-Give an example
+```python
+my_url = "https://www.newegg.com/Video-Cards-Video-Devices/Category/ID-38?Tpk=graphic%20card"
+#Opening up connection grabbing the page
+uClient = uReq(my_url)
+page_html = uClient.read()
 ```
 
-## 🎈 Usage <a name="usage"></a>
-Add notes about how to use the system.
+Then we use soup to parse the html page and sotre it in `page_soup`. In order to know which div contains all of the products information, we need to inspect the web page and find the class name for that. In this case, we want to find all divs that have class name "item-container". containers is a list that contains all of the products info in this htnl page.
 
-## 🚀 Deployment <a name = "deployment"></a>
-Add additional notes about how to deploy this on a live system.
+```python
+uClient.close()
+page_soup = soup(page_html, "html.parser")
+containers = page_soup.findAll("div", {"class":"item-container"})
+```
+In the for loop, we are iterating over each individual item and check ther brand, title, and shipping info.
+
+```python
+for container in containers:
+	brand_container = container.findAll("a", {"class":"item-brand"})
+	brand = brand_container[0].img["title"]
+	title_container = container.findAll("a", {"class":"item-title"})
+	product_name = title_container[0].text
+	shipping_container = container.findAll("li", {"class":"price-ship"})
+	shipping_price = shipping_container[0].text.strip()
+	print("brand : ",brand)
+	print("name : ",product_name)
+	print("shipping price : ",shipping_price)
+	print("--------------------")
+```
+
+## 🚀 Result 
+![image](https://user-images.githubusercontent.com/32112516/62011746-e13d0380-b16b-11e9-9fbb-b42bdcf981b6.png)
+![image](https://user-images.githubusercontent.com/32112516/62011758-fe71d200-b16b-11e9-95c0-4fbce377696d.png)
 
 ## ⛏️ Built Using <a name = "built_using"></a>
-- [MongoDB](https://www.mongodb.com/) - Database
-- [Express](https://expressjs.com/) - Server Framework
-- [VueJs](https://vuejs.org/) - Web Framework
-- [NodeJs](https://nodejs.org/en/) - Server Environment
+- [Python] - Programming Language
 
-## ✍️ Authors <a name = "authors"></a>
-- [@kylelobo](https://github.com/kylelobo) - Idea & Initial work
+## License
 
-See also the list of [contributors](https://github.com/kylelobo/The-Documentation-Compendium/contributors) who participated in this project.
-
-## 🎉 Acknowledgements <a name = "acknowledgement"></a>
-- Hat tip to anyone whose code was used
-- Inspiration
-- References
+🌱 MIT 🌱
